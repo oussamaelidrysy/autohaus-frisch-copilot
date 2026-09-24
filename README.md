@@ -2,6 +2,8 @@
 > **DaiL Hackathon Sprint (Octopus Day — Sept 17, 2026)**  
 > An AI-powered decision support platform built for German dealership workshop managers (*Werkstattmeister*) to detect, classify, and resolve shop floor bottlenecks between DMS and ERP systems.
 
+🚀 **Live Production App:** [https://c02-ui.vercel.app](https://c02-ui.vercel.app)
+
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Next.js](https://img.shields.io/badge/Frontend-Next.js_14-black)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688)
@@ -24,8 +26,11 @@ When a physical part arrives at 08:30 AM in ERP, but the DMS job status remains 
 ---
 
 ## 🏗️ Architecture & Tech Stack
+
 [ Next.js Frontend ]  <--->  [ Cloudflare Tunnel ]  <--->  [ FastAPI Agent Engine ]
 (Vercel Production)                                       (Gemini + Supabase)
+
+
 - **Frontend (`c02-ui`):** Next.js 14, React, Tailwind CSS (`slate-100` / `slate-900` corporate OEM aesthetic), Lucide Icons.
 - **Backend (`c02-agent`):** FastAPI Python service powering AI diagnosis and endpoint execution.
 - **AI Engine:** Google Gemini API for natural language cross-system dependency analysis.
@@ -67,3 +72,32 @@ Every AI diagnosis cites exact source record IDs (`R-1`, `E-2`) from system logs
 ### Analyze Job Stage
 ```http
 POST /api/analyze/{job_id}
+Returns: Root cause classification, reasoning, source record citations, designated task owner, and confidence score.
+
+Approve Stage Transition
+HTTP
+POST /api/approve/{recommendation_id}
+Returns: Confirmation of stage update and persists approval metadata to the Supabase audit log.
+
+🚀 Local Setup & Installation
+Prerequisites
+Node.js (v18+) & npm
+
+Python 3.10+
+
+Supabase Project & Gemini API Key
+
+1. Frontend Setup
+Bash
+cd c02-ui
+npm install
+npm run dev
+2. Backend Setup
+Bash
+cd c02-agent
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8001
+👨‍💻 Author
+Developed by Oussama El Idrysy during the DaiL Hackathon (Düsseldorf / Morocco) hosted at the International University of Casablanca (UIC).
